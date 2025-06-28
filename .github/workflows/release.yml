@@ -47,13 +47,13 @@ jobs:
           cargo binstall cross
       - name: Build binary
         run: ${{ matrix.cargo_tool || 'cargo' }} build --release --target ${{ matrix.target }}
-      # - name: Rename binary
-      #   run: mv target/${{ matrix.target }}/release/${{ matrix.bin }}${{ matrix.ext }} target/${{ matrix.target }}/release/${{ matrix.bin }}-${{ matrix.target }}${{ matrix.ext }}
+      - name: Rename binary
+        run: mv target/${{ matrix.target }}/release/${{ matrix.bin }}${{ matrix.ext }} target/${{ matrix.target }}/release/${{ matrix.bin }}-${{ matrix.target }}${{ matrix.ext }}
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.bin }}-${{ matrix.target }}
-          path: target/${{ matrix.target }}/release/${{ matrix.bin }}${{ matrix.ext }}
+          path: target/${{ matrix.target }}/release/${{ matrix.bin }}-${{ matrix.target }}${{ matrix.ext }}
   # build-windows-aarch64:
   #   if: (github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main') || (github.event_name == 'workflow_dispatch')
   #   name: Build aarch64-pc-windows-msvc
