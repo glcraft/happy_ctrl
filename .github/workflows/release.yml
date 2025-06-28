@@ -87,7 +87,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Get version
         id: get_version
-        run: echo ::set-output name=VERSION::${{ env.CARGO_PKG_VERSION }}
+        run: echo "VERSION=${{ env.CARGO_PKG_VERSION }}" >> $GITHUB_OUTPUT
         env:
           CARGO_PKG_VERSION: $(grep '^version' Cargo.toml | egrep -o "[0-9.]+")
       - name: Download all artifacts
@@ -102,4 +102,4 @@ jobs:
         with:
           tag_name: v${{ steps.get_version.outputs.VERSION }}
           body: ${{ github.event.pull_request.body }}
-          files: artifacts/*/*
+          files: artifacts/*
