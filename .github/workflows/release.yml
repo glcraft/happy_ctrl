@@ -34,6 +34,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: Install Ubuntu dependencies
+        run: sudo apt install libdbus-1-dev pkg-config
       - name: Install Rust
         run: rustup update stable && rustup default stable && rustup target add ${{ matrix.target }}
       - name: Build binary
