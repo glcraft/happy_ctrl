@@ -102,4 +102,4 @@ jobs:
         with:
           tag_name: v${{ steps.get_version.outputs.VERSION }}
           body: ${{ github.event.pull_request.body }}
-          files: artifacts/*/*
+          files: artifacts/*
