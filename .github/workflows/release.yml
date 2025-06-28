@@ -48,34 +48,34 @@ jobs:
           name: ${{ matrix.bin }}-${{ matrix.target }}
           path: target/${{ matrix.target }}/release/${{ matrix.bin }}-${{ matrix.target }}${{ matrix.ext }}
 
-  build-windows-aarch64:
-    if: (github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main') || (github.event_name == 'workflow_dispatch')
-    name: Build aarch64-pc-windows-msvc
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install Rust
-        run: rustup update stable && rustup default stable && rustup target add aarch64-pc-windows-msvc
-      - name: Install linker
-        run: sudo apt-get update && sudo apt-get install -y clang lld
-      - name: Build binary
-        run: |
-          echo '[target.aarch64-pc-windows-msvc]' >> ~/.cargo/config.toml
-          echo 'linker = "clang"' >> ~/.cargo/config.toml
-          echo 'rustflags = ["-C", "link-arg=-fuse-ld=lld"]' >> ~/.cargo/config.toml
-          cargo build --release --target aarch64-pc-windows-msvc
-      - name: Rename binary
-        run: mv target/aarch64-pc-windows-msvc/release/happy_ctrl.exe target/aarch64-pc-windows-msvc/release/happy_ctrl-aarch64-pc-windows-msvc.exe
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: happy_ctrl-aarch64-pc-windows-msvc
-          path: target/aarch64-pc-windows-msvc/release/happy_ctrl-aarch64-pc-windows-msvc.exe
+  # build-windows-aarch64:
+  #   if: (github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main') || (github.event_name == 'workflow_dispatch')
+  #   name: Build aarch64-pc-windows-msvc
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Install Rust
+  #       run: rustup update stable && rustup default stable && rustup target add aarch64-pc-windows-msvc
+  #     - name: Install linker
+  #       run: sudo apt-get update && sudo apt-get install -y clang lld
+  #     - name: Build binary
+  #       run: |
+  #         echo '[target.aarch64-pc-windows-msvc]' >> ~/.cargo/config.toml
+  #         echo 'linker = "clang"' >> ~/.cargo/config.toml
+  #         echo 'rustflags = ["-C", "link-arg=-fuse-ld=lld"]' >> ~/.cargo/config.toml
+  #         cargo build --release --target aarch64-pc-windows-msvc
+  #     - name: Rename binary
+  #       run: mv target/aarch64-pc-windows-msvc/release/happy_ctrl.exe target/aarch64-pc-windows-msvc/release/happy_ctrl-aarch64-pc-windows-msvc.exe
+  #     - name: Upload artifact
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: happy_ctrl-aarch64-pc-windows-msvc
+  #         path: target/aarch64-pc-windows-msvc/release/happy_ctrl-aarch64-pc-windows-msvc.exe
 
   release:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     name: Release
-    needs: [build, build-windows-aarch64]
+    needs: [build ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
