@@ -47,8 +47,8 @@ jobs:
           cargo binstall cross
       - name: Build binary
         run: ${{ matrix.cargo_tool || 'cargo' }} build --release --target ${{ matrix.target }}
-      - name: Rename binary
-        run: mv target/${{ matrix.target }}/release/${{ matrix.bin }}${{ matrix.ext }} target/${{ matrix.target }}/release/${{ matrix.bin }}-${{ matrix.target }}${{ matrix.ext }}
+      # - name: Rename binary
+      #   run: mv target/${{ matrix.target }}/release/${{ matrix.bin }}${{ matrix.ext }} target/${{ matrix.target }}/release/${{ matrix.bin }}-${{ matrix.target }}${{ matrix.ext }}
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
