@@ -103,5 +103,3 @@ jobs:
           tag_name: v${{ steps.get_version.outputs.VERSION }}
           body: ${{ github.event.pull_request.body }}
           files: artifacts/*/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
